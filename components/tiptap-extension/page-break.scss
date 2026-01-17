@@ -1,0 +1,68 @@
+/* Page Break Styling */
+.page-break-wrapper {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    pointer-events: none;
+}
+
+.page-break {
+    position: relative;
+    height: 40px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    page-break-after: always;
+    /* Critical for PDF export */
+    break-after: page;
+    /* Modern syntax */
+}
+
+.page-break-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--tt-gray-light-300);
+    transform: translateY(-50%);
+
+    .dark & {
+        background-color: var(--tt-gray-dark-300);
+    }
+}
+
+.page-break-label {
+    position: relative;
+    padding: 4px 12px;
+    background-color: var(--tt-bg-color);
+    color: var(--tt-gray-light-600);
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid var(--tt-gray-light-300);
+    z-index: 1;
+    white-space: nowrap;
+
+    .dark & {
+        color: var(--tt-gray-dark-600);
+        border-color: var(--tt-gray-dark-300);
+    }
+}
+
+/* Print/PDF Export Styles */
+@media print {
+    .page-break {
+        height: 0;
+        margin: 0;
+        padding: 0;
+        page-break-after: always;
+    }
+
+    .page-break-line,
+    .page-break-label {
+        display: none;
+        /* Hide visual indicators in print */
+    }
+}

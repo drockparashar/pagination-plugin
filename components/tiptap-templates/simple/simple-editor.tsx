@@ -34,6 +34,10 @@ import "@/components/tiptap-node/image-node/image-node.scss"
 import "@/components/tiptap-node/heading-node/heading-node.scss"
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss"
 
+// --- Tiptap Extensions ---
+import { PageBreak } from "@/components/tiptap-extension/page-break-extension"
+import "@/components/tiptap-extension/page-break.scss"
+
 // --- Tiptap UI ---
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu"
 import { ImageUploadButton } from "@/components/tiptap-ui/image-upload-button"
@@ -63,6 +67,8 @@ import { LinkIcon } from "@/components/tiptap-icons/link-icon"
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint"
 import { useWindowSize } from "@/hooks/use-window-size"
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility"
+import { useEditorHeight, PAGE_HEIGHT } from "@/hooks/use-editor-height"
+import { usePageBreakManager } from "@/hooks/use-page-break-manager"
 
 // --- Components ---
 import { ThemeToggle } from "@/components/tiptap-templates/simple/theme-toggle"
@@ -220,6 +226,7 @@ export function SimpleEditor() {
       Superscript,
       Subscript,
       Selection,
+      PageBreak, // Page break extension for pagination
       ImageUploadNode.configure({
         accept: "image/*",
         maxSize: MAX_FILE_SIZE,
@@ -236,6 +243,15 @@ export function SimpleEditor() {
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
   })
 
+  // Global height manager
+  const heightMetrics = useEditorHeight(editor)
+
+  // Automatic page break management
+  usePageBreakManager(editor, heightMetrics, {
+    autoInsert: true,
+    debounceMs: 500, // Wait 500ms after typing stops before updating breaks
+  })
+
   useEffect(() => {
     if (!isMobile && mobileView !== "main") {
       setMobileView("main")
@@ -250,8 +266,8 @@ export function SimpleEditor() {
           style={{
             ...(isMobile
               ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
+                bottom: `calc(100% - ${height - rect.y}px)`,
+              }
               : {}),
           }}
         >

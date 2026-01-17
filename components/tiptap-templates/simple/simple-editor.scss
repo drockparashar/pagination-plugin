@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "../../../styles/print.scss";
 
 body {
   --tt-toolbar-height: 44px;
@@ -29,7 +30,11 @@ body,
 #root,
 #app {
   height: 100%;
-  background-color: var(--tt-bg-color);
+  background-color: var(--tt-gray-light-50);
+
+  .dark & {
+    background-color: var(--tt-gray-dark-50);
+  }
 }
 
 ::-webkit-scrollbar {
@@ -73,6 +78,16 @@ body,
 .simple-editor-content .tiptap.ProseMirror.simple-editor {
   flex: 1;
   padding: 3rem 3rem 30vh;
+  /* A4 page height at 96 DPI */
+  background-color: white;
+  border: 0.5px solid gray;
+  caret-color: black;
+
+  .dark & {
+    background-color: black;
+    border: 0.5px solid gray;
+    caret-color: white;
+  }
 }
 
 @media screen and (max-width: 480px) {

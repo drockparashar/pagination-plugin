@@ -1,0 +1,104 @@
+/* PDF Export Styles */
+@media print {
+
+    /* Reset page margins */
+    @page {
+        size: A4;
+        margin: 0.5in;
+        /* 48px margins */
+    }
+
+    /* Hide UI elements */
+    .tiptap-toolbar,
+    .simple-editor-wrapper>div[style*="position: fixed"] {
+        display: none !important;
+    }
+
+    /* Reset editor container */
+    .simple-editor-wrapper {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .simple-editor-content {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .simple-editor-content .tiptap.ProseMirror.simple-editor {
+        padding: 0;
+        min-height: auto;
+        background: white;
+        border: none;
+    }
+
+    /* Page breaks */
+    .page-break {
+        height: 0;
+        margin: 0;
+        padding: 0;
+        page-break-after: always;
+        break-after: page;
+    }
+
+    .page-break-line,
+    .page-break-label {
+        display: none;
+    }
+
+    /* Prevent page breaks inside certain elements */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    /* Prevent orphans and widows */
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    /* Keep images with their captions */
+    img {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Keep code blocks together */
+    pre,
+    code {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Keep list items together when possible */
+    li {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Ensure proper colors for print */
+    body {
+        color: black;
+        background: white;
+    }
+
+    /* Print links with URLs */
+    a[href]:after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: #666;
+    }
+
+    /* Don't print URLs for anchor links */
+    a[href^="#"]:after {
+        content: "";
+    }
+}
